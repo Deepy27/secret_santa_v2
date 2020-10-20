@@ -2,3 +2,4 @@
 <div class="container form">
     <h1>Dobrodošli na spletni strani Secret Santa</h1>
 </div>
+@extends('layout.footer')

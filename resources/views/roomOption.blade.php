@@ -14,3 +14,4 @@
         </div>
     </div>
 </div>
+@extends('layout.footer')

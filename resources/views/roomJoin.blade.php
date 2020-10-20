@@ -10,9 +10,10 @@
                     <input class="form-control" type="password" placeholder="Geslo" name="roomPassword">
                 </div>
                 <div class="form-group">
-                    <a href="/room" class="btn btn-info button">Pridruži se sobi</a>
-                    <a href="/roomOption" class="btn btn-info button float-right">Nazaj</a>
+                    <input class="btn btn-info btn-lg" type="submit" value="Pridruži se sobi">
+                    <a href="/roomOption" class="btn btn-info button btn-lg float-right">Nazaj</a>
                 </div>
             </form>
         </div>
 </div>
+@extends('layout.footer')
