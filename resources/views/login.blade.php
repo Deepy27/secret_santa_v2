@@ -2,7 +2,7 @@
 <div class="container form">
         <div class="col-4">
             <h1>Vpiši se</h1>
-            <form method="post" action="roomOption">
+            <form method="post" action="login">
                 <div class="form-group">
                     <input class="form-control" type="text" placeholder="Uporabniško Ime" name="username">
                 </div>

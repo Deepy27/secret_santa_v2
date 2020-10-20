@@ -2,7 +2,7 @@
 <div class="container form">
         <div class="col-4">
             <h1>Pridruži se sobi</h1>
-            <form method="post" action="room">
+            <form method="post" action="roomJoin">
                 <div class="form-group">
                     <input class="form-control" type="text" placeholder="Ime sobe" name="roomName">
                 </div>

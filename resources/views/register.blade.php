@@ -2,7 +2,7 @@
 <div class="container form">
         <div class="col-4">
             <h1>Registriraj se</h1>
-            <form method="post" action="roomOption">
+            <form method="post" action="register">
                 <div class="form-group">
                     <input class="form-control" type="text" placeholder="Ime" name="name">
                 </div>
