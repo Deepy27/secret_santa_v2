@@ -1,4 +1,4 @@
-@extends('layout.header')
+@include('layout.header')
 <div class="container form">
     <div class="border border-dark rounded-bottom rounded-top">
         <h1>
@@ -6,4 +6,4 @@
         </h1>
     </div>
 </div>
-@extends('layout.footer')
+@include('layout.footer')
