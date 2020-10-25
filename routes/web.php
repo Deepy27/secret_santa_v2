@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoomController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,7 +61,7 @@ Route::post('/login', function () {
     }
 });
 
-Route::get('/room', function () {
+Route::get('/room/{roomId}', function ($roomId) {
     return view('room');
 })->middleware('auth');
 
@@ -70,8 +71,12 @@ Route::get('/roomCreate', function () {
 
 Route::post('/roomCreate', function () {
     $roomController = new RoomController();
-    $roomController->createRoom();
-    return redirect ('room');
+    $roomID = $roomController->createRoom();
+    if ($roomID) {
+        return redirect(sprintf('room/%s', $roomID));
+    } else {
+        throw new Exception('There was a problem creating a room!');
+    }
 })->middleware('auth');
 
 Route::get('/roomJoin', function () {
@@ -80,13 +85,21 @@ Route::get('/roomJoin', function () {
 
 Route::post('/roomJoin', function () {
     $roomController = new RoomController();
-    $roomController->joinRoom();
-    return redirect ('room');
+    return $roomController->joinRoom();
 })->middleware('auth');
 
 Route::get('/roomOption', function () {
     return view('roomOption');
 })->middleware('auth');
+
+Route::post('/roomGetUsers', function () {
+    $roomController = new RoomController();
+    $roomUsers = $roomController->getRoomUsers();
+    return new JsonResponse([
+        'status' => 'success',
+        'data' => $roomUsers
+    ]);
+});
 
 Route::get('/user', function () {
     return view('user');

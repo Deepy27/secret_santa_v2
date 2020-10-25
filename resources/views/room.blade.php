@@ -1,24 +1,23 @@
 <?php
-use App\User;
-$user = new User();
-?>
-@extends('layout.header')
 
+use App\User;
+use App\Http\Controllers\RoomController;
+
+$user = new User();
+$roomController = new RoomController();
+
+?>
+@include('layout.header')
 <div class="container form">
     <div>
-        <h1>Seznam uporabnikov</h1>
-    </div>
-
-    <div class="border border-white rounded-bottom rounded-top">
-        <ul>
-            <li>
-                <?= $user->getUserName() ?>
-            </li>
-        </ul>
-    </div>
-
-    <div>
-        <a href="/user" class="btn btn-outline-success mt-2">Generiraj</a>
+        <div>
+            <h1>Seznam uporabnikov</h1>
+        </div>
+        <ul class="border border-white rounded-bottom rounded-top roomList" id="userList"></ul>
+        <div>
+            <a href="/" class="btn btn-outline-success mt-2">Generiraj</a>
+        </div>
     </div>
 </div>
-@extends('layout.footer')
+@include('layout.footer')
+<script src="/script/refreshUsers.js"></script>

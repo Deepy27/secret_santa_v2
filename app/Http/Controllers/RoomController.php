@@ -29,6 +29,9 @@ class RoomController extends Controller
             // Set data to new user //
             $room->createRoom($title, $roomUrl, Hash::make($password), $adminUserId, $status);
             $roomUser->joinRoom($room->room_id);
+            return $room->room_url;
+        } else {
+            throw new \Exception('No title was passed!');
         }
     }
 
@@ -44,18 +47,43 @@ class RoomController extends Controller
             $roomUser = new RoomUser();
             $response = $room->getRoom($roomUrl);
             if ($response->room_url) {
-                if (Auth::check()) {
-                    return DB::table('users')->where('user_id', '=', Auth::id())->first();
+                $roomUsers = DB::table('room_users')
+                    ->where('user_id', '=', Auth::id())
+                    ->where('room_id', '=', $response->room_id)
+                    ->first();
+                if (isset($roomUsers->user_id)) {
+                    throw new \Exception('This user already joined this room!');
                 }
-                else if ($response->room_password) {
-                    if (Hash::check($password, $response->room_password)) {
-                        $roomUser->joinRoom($response->room_id);
+
+                if ($response->room_password) {
+                    if (!Hash::check($password, $response->room_password)) {
+                        throw new \Exception('Wrong room password!');
                     }
                 }
-            }
-            else {
                 $roomUser->joinRoom($response->room_id);
+                return redirect(sprintf('room/%s', $roomUrl));
+            } else {
+                throw new \Exception('Room doesn\'t exist!');
             }
+        } else {
+            throw new \Exception('No room URL was passed!');
+        }
+    }
+
+    public function getRoomUsers()
+    {
+        $roomURL = $_REQUEST['roomURL'];
+        if ($roomURL) {
+            $sql = sprintf('
+                        select name from users, rooms, room_users
+                        where users.user_id = room_users.user_id
+                        and rooms.room_id = room_users.room_id
+                        and rooms.room_url = %s;',
+                $roomURL
+            );
+            return DB::select(DB::raw($sql));
+        } else {
+            throw new \Exception('Room URL was not passed!');
         }
     }
 }
