@@ -3,8 +3,9 @@
         <div class="col-4">
             <h1>Pridruži se sobi</h1>
             <form method="post" action="roomJoin">
+                @csrf <!-- {{ csrf_field() }} -->
                 <div class="form-group">
-                    <input class="form-control" type="text" placeholder="Ime sobe" name="roomName">
+                    <input class="form-control" type="text" placeholder="Šifra sobe" name="roomUrl">
                 </div>
                 <div class="form-group">
                     <input class="form-control" type="password" placeholder="Geslo" name="roomPassword">
