@@ -3,6 +3,7 @@ use App\User;
 $user = new User();
 ?>
 @extends('layout.header')
+
 <div class="container form">
     <div>
         <h1>Seznam uporabnikov</h1>
