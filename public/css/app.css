@@ -1,8 +1,13 @@
-.form{
+.form {
     height: 100vh;
     justify-content: center;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
+}
+
+.form .btn {
+    width: 100%;
 }
 
 body {
@@ -22,4 +27,8 @@ h1 {
 
 li {
     color: white;
+}
+
+.roomList li{
+    padding: 2%;
 }
