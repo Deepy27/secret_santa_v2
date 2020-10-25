@@ -3,3 +3,4 @@
     <link rel="stylesheet" href="css/app.css">
 </head>
 <body>
+@include('layout.navbar')
