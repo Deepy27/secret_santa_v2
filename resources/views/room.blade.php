@@ -1,17 +1,23 @@
+<?php
+use App\User;
+$user = new User();
+?>
 @extends('layout.header')
 <div class="container form">
-    <div class="form-group">
+    <div>
         <h1>Seznam uporabnikov</h1>
     </div>
-    <div class="border border-dark rounded-bottom rounded-top form-group">
+
+    <div class="border border-white rounded-bottom rounded-top">
         <ul>
             <li>
-                Tamara
+                <?= $user->getUserName() ?>
             </li>
         </ul>
     </div>
-    <div class="form-group">
-        <a href="/user" class="btn btn-info mt-2">Generiraj</a>
+
+    <div>
+        <a href="/user" class="btn btn-outline-success mt-2">Generiraj</a>
     </div>
 </div>
 @extends('layout.footer')
