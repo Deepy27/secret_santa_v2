@@ -16,7 +16,6 @@ use phpDocumentor\Reflection\Types\String_;
 
 class RoomUser extends Model
 {
-    //
     /**
      * @param int $roomId
      */

@@ -21,7 +21,7 @@ class Room extends Model
 {
     protected $primaryKey = 'room_id';
     /**
-     * @var mixed
+     * @var int
      */
     private $room_id;
 
@@ -40,7 +40,6 @@ class Room extends Model
         $this->admin_user_id = $adminUserId;
         $this->table_status = $status;
         $this->save();
-        return $this->room_id;
     }
 
     public function getRoom(int $roomUrl)

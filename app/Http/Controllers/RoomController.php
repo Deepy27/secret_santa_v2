@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Hash;
 
 class RoomController extends Controller
 {
-    //
     public function createRoom()
     {
         // Get the data from the request or set to null, if data was not passed //
