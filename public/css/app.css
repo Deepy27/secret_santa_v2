@@ -6,15 +6,20 @@
 }
 
 body {
-    background: #00F260;
-    background: -webkit-linear-gradient(to left, #0575E6, #00F260);
-    background: linear-gradient(to left, #0575E6, #00F260);
+    background: #0f0c29;
+    background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29);
+    background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
 }
 
 h1 {
     text-align: center;
+    color: white;
 }
 
 .button {
     width: 49%;
+}
+
+li {
+    color: white;
 }
