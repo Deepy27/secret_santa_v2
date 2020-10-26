@@ -42,8 +42,22 @@ class Room extends Model
         $this->save();
     }
 
+    /**
+     * @param int $roomUrl
+     * @return Model|\Illuminate\Database\Query\Builder|object|null
+     */
+
     public function getRoom(int $roomUrl)
     {
         return DB::table('rooms')->where('room_url', '=', $roomUrl)->first();
+    }
+
+    /**
+     * @param int $adminUserId
+     * @return Model|\Illuminate\Database\Query\Builder|object|null
+     */
+
+    public function getAdminId () {
+        return DB::table('rooms')->where('admin_user_id', '=', Auth::id())->first();
     }
 }
