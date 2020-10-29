@@ -62,7 +62,7 @@ Route::post('/login', function () {
 });
 
 Route::get('/room/{roomId}', function ($roomId) {
-    return view('room');
+    return view('room', ['roomUrl' => $roomId]);
 })->middleware('auth');
 
 Route::get('/roomCreate', function () {
