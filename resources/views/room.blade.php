@@ -1,9 +1,12 @@
 <?php
 
 use App\User;
+use App\Room;
 use App\Http\Controllers\RoomController;
+use Illuminate\Support\Facades\Auth;
 
 $user = new User();
+$room = new Room();
 $roomController = new RoomController();
 
 ?>
@@ -14,9 +17,14 @@ $roomController = new RoomController();
             <h1>Seznam uporabnikov</h1>
         </div>
         <ul class="border border-white rounded-bottom rounded-top roomList" id="userList"></ul>
-        <div>
-            <a href="/" class="btn btn-outline-success mt-2">Generiraj</a>
-        </div>
+        <?php
+        if ($room->isAdmin()) {
+                echo
+                '<div>
+                    <a href="/generate" class="btn btn-outline-success mt-2">Generiraj</a>
+                </div>';
+            }
+        ?>
     </div>
 </div>
 @include('layout.footer')
