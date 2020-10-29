@@ -101,6 +101,6 @@ Route::post('/roomGetUsers', function () {
     ]);
 });
 
-Route::get('/user', function () {
+Route::get('/generate', function () {
     return view('user');
 })->middleware('auth');

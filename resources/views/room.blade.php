@@ -18,10 +18,10 @@ $roomController = new RoomController();
         </div>
         <ul class="border border-white rounded-bottom rounded-top roomList" id="userList"></ul>
         <?php
-        if ($room->getAdminId()) {
+        if ($room->isAdmin()) {
                 echo
                 '<div>
-                    <a href="/user" class="btn btn-outline-success mt-2">Generiraj</a>
+                    <a href="/generate" class="btn btn-outline-success mt-2">Generiraj</a>
                 </div>';
             }
         ?>
