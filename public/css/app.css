@@ -11,9 +11,9 @@
 }
 
 body {
-    background: #0f0c29;
-    background: -webkit-linear-gradient(to right, #24243e, #302b63, #0f0c29);
-    background: linear-gradient(to right, #24243e, #302b63, #0f0c29);
+    background: #360033;
+    background: -webkit-linear-gradient(to top, #0b8793, #360033);
+    background: linear-gradient(to top, #0b8793, #360033);
 }
 
 h1 {
@@ -27,8 +27,39 @@ h1 {
 
 li {
     color: white;
+    list-style-type: none;
 }
 
-.roomList li{
+.roomList li {
     padding: 2%;
+}
+
+table {
+    color: #bbe1fa;
+    width: 50%;
+}
+
+table, th, td {
+    border: 1px solid #bbe1fa;
+    padding: 20px;
+}
+
+th, td:nth-child(2) {
+    text-align: center;
+}
+
+tr:nth-child(even) {
+    background-color: #0f4c75;
+}
+
+tr:nth-child(odd) {
+    background-color: #3282b8;
+}
+
+th {
+    background: #1b262c;
+}
+
+a {
+    color: #bbe1fa;
 }
