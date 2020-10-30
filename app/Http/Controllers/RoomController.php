@@ -86,4 +86,14 @@ class RoomController extends Controller
             throw new \Exception('Room URL was not passed!');
         }
     }
+
+    public function getRooms()
+    {
+        $sql = sprintf('
+            select title, room_url, table_status from rooms, room_users
+            where rooms.room_id = room_users.room_id
+            and room_users.user_id = "%s"
+        ', Auth::id());
+        return DB::select(DB::raw($sql));
+    }
 }
