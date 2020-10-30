@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Hash;
 
 class RoomController extends Controller
 {
+    /**
+     * @return string
+     * @throws \Exception
+     */
     public function createRoom()
     {
         // Get the data from the request or set to null, if data was not passed //
@@ -35,6 +39,10 @@ class RoomController extends Controller
         }
     }
 
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Exception
+     */
     public function joinRoom()
     {
         // Get the data from the request or set to null, if data was not passed //
@@ -70,6 +78,10 @@ class RoomController extends Controller
         }
     }
 
+    /**
+     * @return array
+     * @throws \Exception
+     */
     public function getRoomUsers()
     {
         $roomURL = $_REQUEST['roomURL'];
@@ -87,6 +99,9 @@ class RoomController extends Controller
         }
     }
 
+    /**
+     * @return array
+     */
     public function getRooms()
     {
         $sql = sprintf('
