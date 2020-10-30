@@ -17,7 +17,7 @@ $rooms = $roomController->getRooms();
         </tr>
         <?php
         foreach ($rooms as $room) {
-            echo sprintf('<tr><td><a href="/room/%s">%s</a></td><td>%s</td></tr>', $room->room_url, $room->title, $room->table_status ? 'Odprta' : 'Zaprta');
+            echo sprintf('<tr><td><a href="/room/%s">%s</a></td><td>%s</td></tr>', $room->room_url, $room->title, $room->table_status ? 'Odprta <i class="fas fa-unlock rooms"></i>' : 'Zaprta <i class="fas fa-lock rooms"></i>');
         }
         ?>
     </table>

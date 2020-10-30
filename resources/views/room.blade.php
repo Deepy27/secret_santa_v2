@@ -14,7 +14,7 @@ $roomController = new RoomController();
 <div class="container form">
     <div>
         <div>
-            <h1>Seznam uporabnikov</h1>
+            <h1>Seznam uporabnikov <i class="far fa-user user"></i></h1>
         </div>
         <ul class="border border-white rounded-bottom rounded-top roomList" id="userList"></ul>
         <?php

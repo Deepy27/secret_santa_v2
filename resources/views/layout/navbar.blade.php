@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="/">Domov</a>
+                <a class="nav-link" href="/">Domov <i class="fas fa-home"></i></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/room">Sobe</a>
@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Auth;
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
                 <span class="navbar-text">
-                    SecretSanta
+                    SecretSanta <i class="fas fa-hat-santa"></i>
                 </span>
             </li>
         </ul>
@@ -31,16 +31,16 @@ use Illuminate\Support\Facades\Auth;
                 if (Auth::check()) {
                     echo
                     "<li class='nav-item'>
-                        <a class='nav-link' href='/logout'>Izpis</a>
+                        <a class='nav-link' href='/logout'>Izpis <i class='fas fa-sign-out-alt'></i></a>
                     </li>";
                 }
                 else {
                     echo
                     "<li class='nav-item'>
-                        <a class='nav-link' href='/register'>Registracija</a>
+                        <a class='nav-link' href='/register'>Registracija <i class='fas fa-sign-in-alt'></i></a>
                     </li>
                     <li class='nav-item'>
-                        <a class='nav-link' href='/login'>Vpis</a>
+                        <a class='nav-link' href='/login'>Vpis <i class='fas fa-sign-in-alt'></i></a>
                     </li>";
                 }
             ?>

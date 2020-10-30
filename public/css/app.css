@@ -11,9 +11,9 @@
 }
 
 body {
-    background: #360033;
-    background: -webkit-linear-gradient(to top, #0b8793, #360033);
-    background: linear-gradient(to top, #0b8793, #360033);
+    background: #16222A;
+    background: -webkit-linear-gradient(to left, #3A6073, #16222A);
+    background: linear-gradient(to left, #3A6073, #16222A);
 }
 
 h1 {
@@ -39,8 +39,8 @@ table {
     width: 50%;
 }
 
-table, th, td {
-    border: 1px solid #bbe1fa;
+th, td {
+    border: 3px solid #1b262c;
     padding: 20px;
 }
 
@@ -48,12 +48,8 @@ th, td:nth-child(2) {
     text-align: center;
 }
 
-tr:nth-child(even) {
-    background-color: #0f4c75;
-}
-
 tr:nth-child(odd) {
-    background-color: #3282b8;
+    background-color: #3A6073;
 }
 
 th {
@@ -62,4 +58,28 @@ th {
 
 a {
     color: #bbe1fa;
+}
+
+i.rooms {
+    color: #bbe1fa;
+    font-size: 20px;
+}
+
+i.home {
+    color: white;
+    font-size: 50px;
+}
+
+i.vpis {
+    color: white;
+    font-size: 30px;
+}
+
+i.room {
+    color: cyan;
+    font-size: 20px;
+}
+
+svg.user {
+    font-size: 0.75em;
 }
