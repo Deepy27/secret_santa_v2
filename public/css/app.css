@@ -83,3 +83,9 @@ i.room {
 svg.user {
     font-size: 0.75em;
 }
+
+#recievedName {
+    color: white;
+    text-align: center;
+    font-size: 1.5em;
+}

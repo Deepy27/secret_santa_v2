@@ -105,6 +105,8 @@ Route::post('/roomGetUsers', function () {
     ]);
 });
 
-Route::get('/generate', function () {
-    return view('user');
+Route::get('/generate/{roomUrl}', function ($roomUrl) {
+    $roomController = new RoomController();
+    $roomController->generateUsers($roomUrl);
+    return redirect(sprintf('room/%s', $roomUrl));
 })->middleware('auth');
