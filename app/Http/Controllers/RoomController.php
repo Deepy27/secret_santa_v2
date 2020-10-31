@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Room;
 use App\RoomUser;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -79,24 +80,37 @@ class RoomController extends Controller
     }
 
     /**
+     * @param int|null $roomURL
+     * @param bool $selectUsername
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
-    public function getRoomUsers()
+    public function getRoomUsers(int $roomURL = null, bool $selectUsername = false)
     {
-        $roomURL = $_REQUEST['roomURL'];
-        if ($roomURL) {
-            $sql = sprintf('
-                        select name from users, rooms, room_users
-                        where users.user_id = room_users.user_id
-                        and rooms.room_id = room_users.room_id
-                        and rooms.room_url = %s;',
-                $roomURL
-            );
-            return DB::select(DB::raw($sql));
-        } else {
+        $roomURL = $_REQUEST['roomURL'] ?? $roomURL;
+        if (!$roomURL) {
             throw new \Exception('Room URL was not passed!');
         }
+        $sql = sprintf('
+            select %s from users, rooms, room_users
+            where users.user_id = room_users.user_id
+            and rooms.room_id = room_users.room_id
+            and rooms.room_url = %s;',
+            $selectUsername ? 'username' : 'name',
+            $roomURL
+        );
+        $users = DB::select(DB::raw($sql));
+        $sql = sprintf('
+            select u.name
+            from room_users ru, rooms r, users u
+            where r.room_id = ru.room_id
+            and r.room_url = %s
+            and ru.user_id = %s
+            and u.user_id = ru.picked_user_id
+        ', $roomURL, Auth::id());
+        $pickedName = DB::select(DB::raw($sql));
+        return ['users' => $users, 'pickedName' => $pickedName];
+
     }
 
     /**
@@ -110,5 +124,99 @@ class RoomController extends Controller
             and room_users.user_id = "%s"
         ', Auth::id());
         return DB::select(DB::raw($sql));
+    }
+
+    /**
+     * @param int $roomUrl
+     * @return bool
+     */
+    public function roomIsActive(int $roomUrl)
+    {
+        return DB::select(DB::raw(
+                sprintf('select table_status from rooms where room_url = %s', $roomUrl)))[0]->table_status ?? true;
+    }
+
+    /**
+     * @param int $roomUrl
+     * @throws Exception
+     */
+    public function generateUsers(int $roomUrl): void
+    {
+        if (!$this->roomIsActive($roomUrl)) {
+            throw new Exception('This room has already been generated!');
+        }
+        $users = $this->getRoomUsers($roomUrl, true)['users'] ?? [];
+        if (count($users) < 3) {
+            throw new Exception('Not enough users!');
+        }
+
+        $names = [];
+        foreach ($users as $user) {
+            array_push($names, $user->username);
+        }
+
+        $generatedUsers = $this->generate($names);
+
+        foreach ($generatedUsers as $key => $generatedUser) {
+            $sql = sprintf('
+                update room_users ru, users u, rooms r
+                set ru.picked_user_id = (select user_id from users where username = \'%s\')
+                where ru.user_id = u.user_id
+                and r.room_id = ru.room_id
+                and r.room_url = \'%s\'
+                and u.username = \'%s\';',
+                $generatedUser, $roomUrl, $key
+            );
+            DB::statement($sql);
+        }
+        DB::statement(sprintf('
+            update rooms
+            set table_status = false
+            where room_url = %s
+        ', $roomUrl));
+    }
+
+
+    /**
+     * @param array $names
+     * @return array
+     * @throws Exception
+     */
+    function generate(array $names): array
+    {
+        $generatedNames = [];
+        $usedNames = [];
+
+        for ($i = 0; $i < count($names); $i++) {
+            $pickedName = 0;
+            $counter = 0;
+
+            do {
+                $pickedName = rand(0, count($names) - 1);
+                $counter++;
+                if ($counter > 200) {
+                    throw new Exception('There was a problem generating the names!');
+                }
+            } while ($pickedName == $i ||
+            ($pickedName != $i + 1 && !in_array($i + 1, $usedNames) && $i == count($names) - 2) ||
+            in_array($pickedName, $usedNames));
+
+            $generatedNames[$names[$i]] = $names[$pickedName];
+            array_push($usedNames, $pickedName);
+        }
+
+        return $generatedNames;
+    }
+
+    /**
+     * @param int $roomUrl
+     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Query\Builder|object|null
+     */
+    public function getRoomTitle(int $roomUrl)
+    {
+        return DB::table('rooms')
+            ->select('title')
+            ->where('room_url', '=', $roomUrl)
+            ->first();
     }
 }
