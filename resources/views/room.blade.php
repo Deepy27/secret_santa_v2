@@ -16,12 +16,12 @@ $roomController = new RoomController();
         <div>
             <h1>Seznam uporabnikov <i class="far fa-user user"></i></h1>
         </div>
-        <ul class="border border-white rounded-bottom rounded-top roomList" id="userList"></ul>
+        <ul class="border border-white rounded-bottom rounded-top roomList small" id="userList"></ul>
         <?php
         if ($room->isAdmin($roomUrl)) {
                 echo
                 '<div>
-                    <a href="/generate" class="btn btn-outline-success mt-2">Generiraj</a>
+                    <a href="/generate" class="btn btn-outline-success mt-2 small">Generiraj</a>
                 </div>';
             }
         ?>

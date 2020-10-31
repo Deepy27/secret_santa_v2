@@ -83,3 +83,25 @@ i.room {
 svg.user {
     font-size: 0.75em;
 }
+
+@media (max-width: 1000px) {
+    h1 {
+        font-size: 5rem;
+    }
+
+    .small {
+        font-size: 5rem;
+        height: 7rem;
+    }
+
+    a, span {
+        font-size: 3rem;
+    }
+
+    i {
+        font-size: 4rem;
+    }
+    table {
+        width: 50%;
+    }
+}
