@@ -1,7 +1,7 @@
 @include('layout.header')
-<div class="container form">
-    <div class="col-4">
-        <h1>Registriraj se <i class="fas fa-sign-in-alt vpis"></i></h1>
+<div class="fullScreenLayout">
+    <div class="col-md-4">
+        <h1>Registriraj se <i class='fas fa-user-plus'></i></h1>
         <form method="post" action="register">
         @csrf <!-- {{ csrf_field() }} -->
             <div class="form-group">

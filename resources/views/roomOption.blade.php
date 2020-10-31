@@ -1,5 +1,5 @@
 @include('layout.header')
-<div class="form">
+<div class="fullScreenLayout">
     <div>
         <h1>Izberi sobo</h1>
         <div>
