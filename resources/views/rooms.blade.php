@@ -5,8 +5,8 @@ $roomController = new RoomController();
 $rooms = $roomController->getRooms();
 ?>
 @include('layout.header')
-<div class="form">
-    <table>
+<div class="room-view">
+    <table class="room-view-table">
         <tr>
             <th>
                 Ime sobe

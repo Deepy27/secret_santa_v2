@@ -1,6 +1,6 @@
 @include('layout.header')
-<div class="container form">
-        <div class="col-4">
+<div class="fullScreenLayout">
+        <div class="col-md-4">
             <h1>Pridruži se sobi</h1>
             <form method="post" action="roomJoin">
                 @csrf <!-- {{ csrf_field() }} -->

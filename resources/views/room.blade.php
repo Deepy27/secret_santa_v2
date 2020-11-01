@@ -12,13 +12,15 @@ $roomTitle = $roomController->getRoomTitle($roomUrl)->title ?? '';
 
 ?>
 @include('layout.header')
-<div class="container form">
+<div class="fullScreenLayout">
     <div>
         <div>
-            <h1><u><?=$roomTitle?></u></h1>
-            <h1>Seznam uporabnikov <i class="far fa-user user"></i></h1>
+            <h3>Soba: <?=$roomTitle?></h3>
+            <h5><i>Koda sobe: <?= $roomUrl ?></i></h5>
+            <hr>
+            <h5>Seznam uporabnikov <i class="far fa-user user"></i></h5>
         </div>
-        <ul class="border border-white rounded-bottom rounded-top roomList" id="userList"></ul>
+        <ol class="border border-white rounded-bottom rounded-top roomList" id="userList"></ol>
         <?php
         if ($room->isAdmin($roomUrl)) {
             echo sprintf(
