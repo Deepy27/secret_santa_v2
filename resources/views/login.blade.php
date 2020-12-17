@@ -14,6 +14,9 @@
                 <input class="btn btn-outline-success btn-block" type="submit" value="Vpis">
             </div>
             <a href="/register" class="btn btn-outline-danger btn-block">Nisi registriran?</a>
+            <div class="text-white text-center">
+                Če ste pozabili geslo nas kontaktirajte na <a href="mailto:andraz.bajec27@gmail.com">andraz.bajec27@gmail.com</a>
+            </div>
         </form>
     </div>
 </div>
