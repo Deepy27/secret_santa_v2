@@ -4,6 +4,11 @@ const roomURL = $(window.location.pathname.split('/')).get(-1);
 let name = '';
 let userList;
 
+$('#generateButton').on('click', () => {
+    console.log('Removing...');
+    $('#generateButton').remove();
+});
+
 function refreshData() {
     $.ajaxSetup({
         headers: {
@@ -26,7 +31,7 @@ function refreshData() {
         }
         if (name !== response.data.pickedName && response.data.pickedName.length > 0) {
             name = response.data.pickedName[0]['name'];
-            $('#recievedName').text(`You got: ${name}`);
+            $('#recievedName').text(`Dobili ste: ${name}`);
             $('#generateButton').remove();
         }
     }).fail(error => {

@@ -5,7 +5,12 @@ namespace App\Http\Controllers;
 use App\Room;
 use App\RoomUser;
 use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -14,14 +19,15 @@ class RoomController extends Controller
 {
     /**
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
-    public function createRoom()
+    public function createRoom(): string
     {
         // Get the data from the request or set to null, if data was not passed //
         $title = $_REQUEST['roomName'] ?? null;
         $roomUrl = rand(10000, 99999);
         $password = $_REQUEST['roomPassword'] ?? null;
+        $joinRoom = $_REQUEST['joinRoom'] ?? null;
         $adminUserId = Auth::id();
         $status = true;
 
@@ -33,7 +39,9 @@ class RoomController extends Controller
 
             // Set data to new user //
             $room->createRoom($title, $roomUrl, Hash::make($password), $adminUserId, $status);
-            $roomUser->joinRoom($room->room_id);
+            if ($joinRoom) {
+                $roomUser->joinRoom($room->room_id);
+            }
             return $room->room_url;
         } else {
             throw new \Exception('No title was passed!');
@@ -41,8 +49,8 @@ class RoomController extends Controller
     }
 
     /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
-     * @throws \Exception
+     * @return Application|RedirectResponse|Redirector
+     * @throws Exception
      */
     public function joinRoom()
     {
@@ -85,7 +93,7 @@ class RoomController extends Controller
      * @return array
      * @throws Exception
      */
-    public function getRoomUsers(int $roomURL = null, bool $selectUsername = false)
+    public function getRoomUsers(int $roomURL = null, bool $selectUsername = false): array
     {
         $roomURL = $_REQUEST['roomURL'] ?? $roomURL;
         if (!$roomURL) {
@@ -116,12 +124,29 @@ class RoomController extends Controller
     /**
      * @return array
      */
-    public function getRooms()
+    public function getRooms(): array
     {
         $sql = sprintf('
-            select title, room_url, table_status from rooms, room_users
-            where rooms.room_id = room_users.room_id
-            and room_users.user_id = "%s"
+            select title, room_url, table_status
+            from rooms
+            where room_url
+            in (
+                select room_url
+                from rooms
+                inner join room_users
+                on rooms.room_id = room_users.room_id
+                and room_users.user_id = "%1$s"
+            )
+            or (room_url
+            not in (
+                select room_url
+                from rooms
+                inner join room_users
+                on rooms.room_id = room_users.room_id
+                and room_users.user_id = "%1$s"
+            )
+            and rooms.admin_user_id = "%1$s"
+);
         ', Auth::id());
         return DB::select(DB::raw($sql));
     }
@@ -130,7 +155,7 @@ class RoomController extends Controller
      * @param int $roomUrl
      * @return bool
      */
-    public function roomIsActive(int $roomUrl)
+    public function roomIsActive(int $roomUrl): bool
     {
         return DB::select(DB::raw(
                 sprintf('select table_status from rooms where room_url = %s', $roomUrl)))[0]->table_status ?? true;
@@ -210,7 +235,7 @@ class RoomController extends Controller
 
     /**
      * @param int $roomUrl
-     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Query\Builder|object|null
+     * @return Model|Builder|object|null
      */
     public function getRoomTitle(int $roomUrl)
     {
@@ -218,5 +243,21 @@ class RoomController extends Controller
             ->select('title')
             ->where('room_url', '=', $roomUrl)
             ->first();
+    }
+
+    /**
+     * @param string $roomUrl
+     * @return array
+     */
+    public function getUserList(string $roomUrl): array
+    {
+        return DB::select(DB::raw(sprintf('
+            select u1.name user, u2.name pickedUser
+            from rooms, users u1, users u2, room_users
+            where rooms.room_id = room_users.room_id
+            and rooms.room_url = "%s"
+            and u1.user_id = room_users.user_id
+            and u2.user_id = room_users.picked_user_id;
+        ', $roomUrl)));
     }
 }

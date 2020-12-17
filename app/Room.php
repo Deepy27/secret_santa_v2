@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use phpDocumentor\Reflection\Types\Boolean;
@@ -44,7 +45,7 @@ class Room extends Model
 
     /**
      * @param int $roomUrl
-     * @return Model|\Illuminate\Database\Query\Builder|object|null
+     * @return Model|Builder|object|null
      */
     public function getRoom(int $roomUrl)
     {
@@ -53,17 +54,19 @@ class Room extends Model
 
     /**
      * @param int $roomUrl
-     * @return Model|\Illuminate\Database\Query\Builder|object|null
+     * @return bool
      */
-    public function isAdmin (int $roomUrl) {
-        return DB::table('rooms')->where('admin_user_id', '=', Auth::id())->where('room_url', '=', $roomUrl)->first();
+    public function isAdmin(int $roomUrl): bool
+    {
+        return !!DB::table('rooms')->where('admin_user_id', '=', Auth::id())->where('room_url', '=', $roomUrl)->first();
     }
 
     /**
      * @param int $title
-     * @return Model|\Illuminate\Database\Query\Builder|object|null
+     * @return Model|Builder|object|null
      */
-    public function getRoomName (int $title) {
+    public function getRoomName(int $title)
+    {
         return DB::table('rooms')->where('title', '=', $title)->first();
     }
 }

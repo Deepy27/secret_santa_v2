@@ -9,7 +9,7 @@ $user = new User();
 $room = new Room();
 $roomController = new RoomController();
 $roomTitle = $roomController->getRoomTitle($roomUrl)->title ?? '';
-
+$generated = $roomController->roomIsActive($roomUrl);
 ?>
 @include('layout.header')
 <div class="fullScreenLayout">
@@ -23,10 +23,19 @@ $roomTitle = $roomController->getRoomTitle($roomUrl)->title ?? '';
         <ol class="border border-white rounded-bottom rounded-top roomList" id="userList"></ol>
         <?php
         if ($room->isAdmin($roomUrl)) {
-            echo sprintf(
-                '<div>
+            if ($generated) {
+                echo sprintf(
+                    '<div>
                     <a href="/generate/%s" class="btn btn-outline-success mt-2" id="generateButton">Generiraj</a>
                 </div>', $roomUrl);
+            } else {
+                echo sprintf('
+                  <div>
+                    <h3>Soba je generirana!<h3>
+                    <a href="/seznam/%s">Preveri seznam</a>
+                  </div>
+                ', $roomUrl);
+            }
         }
         ?>
         <p id="recievedName"></p>
