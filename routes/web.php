@@ -106,7 +106,17 @@ Route::post('/roomGetUsers', function () {
 });
 
 Route::get('/generate/{roomUrl}', function ($roomUrl) {
+    if (!(new \App\Room())->isAdmin($roomUrl)) {
+        throw new Exception('You are not an admin of this room!');
+    }
     $roomController = new RoomController();
     $roomController->generateUsers($roomUrl);
     return redirect(sprintf('room/%s', $roomUrl));
+})->middleware('auth');
+
+Route::get('/seznam/{roomUrl}', function ($roomUrl) {
+    if (!(new \App\Room())->isAdmin($roomUrl)) {
+        return redirect('/');
+    }
+    return view('roomList', ['roomUrl' => $roomUrl]);
 })->middleware('auth');
